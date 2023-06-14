@@ -24,6 +24,9 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh './jenkins/scripts/deliver.sh'
+
+                // Pause for 1 minute
+                sleep time: 1, unit: 'MINUTES'
             }
         }
     }
