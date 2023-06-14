@@ -21,7 +21,17 @@ pipeline {
                 }
             }
         }
+        stage('Manual Approval') {
+            steps {
+                input message: 'Lanjutkan ke tahap Deploy?', parameters: [
+                    [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Proceed atau Abort', name: 'Proceed']
+                ]
+            }
+        }
         stage('Deploy') {
+            when {
+                expression { params.Proceed == true }
+            }
             steps {
                 sh './jenkins/scripts/deliver.sh'
 
