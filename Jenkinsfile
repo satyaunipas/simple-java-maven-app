@@ -23,9 +23,12 @@ pipeline {
         }
         stage('Manual Approval') {
             steps {
-                input message: 'Lanjutkan ke tahap Deploy?', parameters: [
-                    [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Proceed atau Abort', name: 'Proceed']
-                ]
+                script {
+                    def userInput = input message: 'Lanjutkan ke tahap Deploy?', parameters: [choice(name: 'action', choices: ['Proceed', 'Abort'], description: 'Pilih Proceed untuk melanjutkan atau Abort untuk menghentikan pipeline')]
+                    if (userInput == 'Abort') {
+                        error('Pipeline aborted')
+                    }
+                }
             }
         }
         stage('Deploy') {
