@@ -31,10 +31,7 @@ pipeline {
                 }
             }
         }
-        stage('Deploy') {
-            when {
-                expression { params.Proceed == true }
-            }
+        stage('Deploy') 
             steps {
                 sh './jenkins/scripts/deliver.sh'
 
